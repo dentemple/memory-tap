@@ -2,21 +2,25 @@ import { injectGlobal } from 'styled-components'
 import 'typeface-roboto'
 
 injectGlobal`
-  html, body {
+  html {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
+    min-width:100vh;
+    min-height:90vh;
+  }
+  *, *:before, *:after {
+    box-sizing: inherit;
   }
   body {
-    color: #F5F5F5;
+    color: #f5f5f5;
     background-color: #181818;
-    font-size: 1.3em;
-    font-family: 'Roboto', 'sans-serif';
-    text-align: center;
+    font-family: 'Roboto', 'Arial', 'sans-serif';
+    /* overflow: hidden; */
     display: flex;
-    align-items: center;
-    justify-content: center;
     flex-direction: column;
-    width: 100%;
-    height: 100%;
+    justify-content: center;
+    align-items: center;
+    min-height:90vh;
   }
 `

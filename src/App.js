@@ -3,8 +3,8 @@ import { Switch, Route } from 'react-router-dom'
 
 import './util/globalStyle'
 
+import GameBoard from './components/GameBoard'
 import LandingPage from './pages/LandingPage'
-import GameBoard from './pages/GameBoard'
 import EndingPage from './pages/EndingPage'
 
 const App = () => (
