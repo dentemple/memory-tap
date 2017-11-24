@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const Counter = ({ value }) => <StyledText>{value}</StyledText>
+const MoveCounter = ({ value }) => <StyledText>{value}</StyledText>
 
 const StyledText = styled.p`
   color: ${props => props.theme.white};
@@ -9,4 +9,4 @@ const StyledText = styled.p`
   font-size: 5em;
 `
 
-export default Counter
+export default MoveCounter

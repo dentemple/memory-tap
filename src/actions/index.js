@@ -1,11 +1,17 @@
 import { actions } from '../types'
 
-export function initializeGame() {
-  return { type: actions.INITIALIZE_GAME }
+export function startGame() {
+  console.log(actions.START_GAME)
+  return { type: actions.START_GAME }
 }
 
 export function clearGame() {
+  console.log(actions.CLEAR_GAME)
   return { type: actions.CLEAR_GAME }
+}
+
+export function initializeGame() {
+  return { type: actions.INITIALIZE_GAME }
 }
 
 export function generateMove(pad) {

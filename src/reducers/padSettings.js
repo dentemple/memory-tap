@@ -2,6 +2,12 @@ import { actions, pads } from '../types'
 
 function padSettings(state = pads, action) {
   switch (action.type) {
+    case actions.INITIALIZE_GAME:
+      return {
+        ...state,
+        ...pads
+      }
+
     case actions.APPLY_HIGHLIGHT:
       return {
         ...state,

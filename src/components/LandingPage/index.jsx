@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import Aux from 'react-aux'
 
-import StyledLink from './StyledLink'
+import StyledLink from '../StyledLink'
 import Title from './Title'
 import TextBlock from './TextBlock'
 import WhiteButton from '../WhiteButton'
+import ReduxTesting from '../ReduxTesting'
 
 class LandingPage extends Component {
   render() {
@@ -15,6 +16,7 @@ class LandingPage extends Component {
         <StyledLink to="/play">
           <WhiteButton>PLAY</WhiteButton>
         </StyledLink>
+        <ReduxTesting />
       </Aux>
     )
   }

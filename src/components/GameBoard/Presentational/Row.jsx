@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-const GameRow = styled.div`
+const Row = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -8,4 +8,4 @@ const GameRow = styled.div`
   margin: 5px auto;
 `
 
-export default GameRow
+export default Row

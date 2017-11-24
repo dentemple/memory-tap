@@ -1,79 +1,23 @@
-import React, { Component } from 'react'
-import Aux from 'react-aux'
 import { connect } from 'react-redux'
+import { selectRandomPad } from '../../util'
+import Presentational from './Presentational'
 
-// import ReduxTesting from '../ReduxTesting'
-import { applyHighlight, removeHighlight } from '../../actions'
+import {
+  applyHighlight,
+  removeHighlight,
+  startGame,
+  clearGame,
+  generateMove
+} from '../../actions'
 
-import GameRow from './GameRow'
-import GamePad from './GamePad'
-import Counter from './Counter'
-import StartButton from './StartButton'
-
-class GameBoard extends Component {
-  handleCounter = () => {
-    return this.props.isLive ? 3 : 'S'
-  }
-  render() {
-    const {
-      topLeft,
-      topRight,
-      bottomLeft,
-      bottomRight,
-      handleClick,
-      playerTurn,
-      isLive
-    } = this.props
-    return (
-      <Wrapper>
-        <GameRow>
-          <GamePad
-            pad={topLeft}
-            callback={handleClick}
-            playerTurn={playerTurn}
-          />
-          <GamePad
-            pad={topRight}
-            callback={handleClick}
-            playerTurn={playerTurn}
-          />
-        </GameRow>
-        <GameRow>
-          <Counter value={this.handleCounter()} />
-        </GameRow>
-        <GameRow>
-          <GamePad
-            pad={bottomLeft}
-            callback={handleClick}
-            playerTurn={playerTurn}
-          />
-          <GamePad
-            pad={bottomRight}
-            callback={handleClick}
-            playerTurn={playerTurn}
-          />
-        </GameRow>
-        <GameRow>
-          <StartButton isLive={isLive} />
-        </GameRow>
-      </Wrapper>
-    )
-  }
-}
-
-const Wrapper = ({ children }) => (
-  <Aux>
-    <form onSubmit={e => e.preventDefault}>{children}</form>
-  </Aux>
-)
-
-const mapStateToProps = ({ padSettings, gameSettings }) => ({
+const mapStateToProps = ({ padSettings, gameSettings, games }) => ({
   isLive: gameSettings.isLive,
   playerTurn: gameSettings.playerTurn,
   topLeft: padSettings.topLeft,
   topRight: padSettings.topRight,
   bottomLeft: padSettings.bottomLeft,
-  bottomRight: padSettings.bottomRight
+  bottomRight: padSettings.bottomRight,
+  currentGame: games.currentGame
 })
 
 const mapDispatchToProps = dispatch => {
@@ -83,8 +27,17 @@ const mapDispatchToProps = dispatch => {
       setTimeout(() => {
         dispatch(removeHighlight(pad))
       }, playerTurn ? 300 : 800)
+    },
+
+    startGame: () => {
+      dispatch(startGame())
+      dispatch(generateMove(selectRandomPad()))
+    },
+
+    clearGame: () => {
+      dispatch(clearGame())
     }
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(GameBoard)
+export default connect(mapStateToProps, mapDispatchToProps)(Presentational)
