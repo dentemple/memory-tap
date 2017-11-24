@@ -1,47 +1,58 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import { generateMove, clearGame, initializeGame } from '../../actions'
+import ReduxTesting from '../ReduxTesting'
+import { applyHighlight, removeHighlight } from '../../actions'
+
 import StyledContainer from './StyledContainer'
 import GameRow from './GameRow'
-import ShowJSON from '../../util/ShowJSON'
+import GamePad from './GamePad'
 
 class GameBoard extends Component {
   render() {
+    const {
+      topLeft,
+      topRight,
+      bottomLeft,
+      bottomRight,
+      handleClick
+    } = this.props
     return (
-      <StyledContainer>
-        <form onSubmit={e => e.preventDefault}>
-          <GameRow>
-            <input type="button" style={{ padding: 30 }} />
-            <input type="button" style={{ padding: 30 }} />
-          </GameRow>
-          <GameRow>
-            <input type="button" style={{ padding: 30 }} />
-            <input type="button" style={{ padding: 30 }} />
-          </GameRow>
-        </form>
-        <h2>Test Actions</h2>
-        <button onClick={this.props.testMove}>Move</button>
-        <button onClick={this.props.testClear}>Clear</button>
-        <button onClick={this.props.testInitialize}>Initialize</button>
-        <ShowJSON json={this.props.store} />
-      </StyledContainer>
+      <Wrapper>
+        <GameRow>
+          <GamePad pad={topLeft} handleClick={handleClick} />
+          <GamePad pad={topRight} handleClick={handleClick} />
+        </GameRow>
+        <GameRow>
+          <GamePad pad={bottomLeft} handleClick={handleClick} />
+          <GamePad pad={bottomRight} handleClick={handleClick} />
+        </GameRow>
+      </Wrapper>
     )
   }
 }
 
-const mapStateToProps = state => ({ store: state })
+const Wrapper = ({ children }) => (
+  <StyledContainer>
+    <form onSubmit={e => e.preventDefault}>{children}</form>
+    <ReduxTesting />
+  </StyledContainer>
+)
+
+const mapStateToProps = ({ padSettings }) => ({
+  topLeft: padSettings.topLeft,
+  topRight: padSettings.topRight,
+  bottomLeft: padSettings.bottomLeft,
+  bottomRight: padSettings.bottomRight
+})
 
 const mapDispatchToProps = dispatch => {
   return {
-    testMove: () => {
-      dispatch(generateMove())
-    },
-    testClear: () => {
-      dispatch(clearGame())
-    },
-    testInitialize: () => {
-      dispatch(initializeGame())
+    handleClick: pad => {
+      dispatch(applyHighlight(pad))
+      setTimeout(() => {
+        dispatch(removeHighlight(pad))
+      }, 400)
     }
   }
 }

@@ -25,7 +25,7 @@ function games(state = initialState, action) {
     case actions.GENERATE_MOVE:
       return {
         ...state,
-        currentGame: [...state.currentGame, action.payload]
+        currentGame: [...state.currentGame, action.name]
       }
 
     default:

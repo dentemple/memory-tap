@@ -4,8 +4,8 @@ import gameSettings from './gameSettings'
 import padSettings from './padSettings'
 
 const reducers = combineReducers({
-  games,
   gameSettings,
+  games,
   padSettings
 })
 

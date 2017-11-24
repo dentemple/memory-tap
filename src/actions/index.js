@@ -1,25 +1,30 @@
-import { actions, possibilities } from '../types'
-
-export function testDispatch() {
-  console.log(actions.TEST_DISPATCH)
-  return { type: actions.TEST_DISPATCH }
-}
+import { actions } from '../types'
 
 export function initializeGame() {
-  console.log(actions.INITIALIZE_GAME)
   return { type: actions.INITIALIZE_GAME }
 }
 
 export function clearGame() {
-  console.log(actions.CLEAR_GAME)
   return { type: actions.CLEAR_GAME }
 }
 
-export function generateMove() {
-  console.log(actions.GENERATE_MOVE)
+export function generateMove(pad) {
   return {
     type: actions.GENERATE_MOVE,
-    payload:
-      possibilities[Math.floor(Math.random() * possibilities.length)].name
+    name: pad.name
+  }
+}
+
+export function applyHighlight(pad) {
+  return {
+    type: actions.APPLY_HIGHLIGHT,
+    pad
+  }
+}
+
+export function removeHighlight(pad) {
+  return {
+    type: actions.REMOVE_HIGHLIGHT,
+    pad
   }
 }
