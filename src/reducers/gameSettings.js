@@ -1,6 +1,8 @@
 // import { actions } from '../types'
 
 const initialState = {
+  isLive: false,
+  playerTurn: false,
   strict: false,
   maxRounds: 20
 }

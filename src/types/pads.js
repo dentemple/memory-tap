@@ -1,27 +1,31 @@
 const pads = Object.freeze({
   topLeft: {
     name: 'topLeft',
-    backgroundColor: 'green',
+    value: '⬉',
+    backgroundColor: '#00a74a' /* green */,
     highlight: false,
-    highlightColor: 'yellow'
+    highlightColor: '#13ff7c' /* lighter green */
   },
   topRight: {
     name: 'topRight',
-    backgroundColor: 'blue',
+    value: '⬈',
+    backgroundColor: '#9f0f17' /* red */,
     highlight: false,
-    highlightColor: 'yellow'
+    highlightColor: '#ff4c4c' /* lighter red */
   },
   bottomLeft: {
     name: 'bottomLeft',
-    backgroundColor: 'brown',
+    value: '⬋',
+    backgroundColor: '#cca707' /* yellow */,
     highlight: false,
-    highlightColor: 'yellow'
+    highlightColor: '#fed93f' /* lighter yellow */
   },
   bottomRight: {
     name: 'bottomRight',
-    backgroundColor: 'red',
+    value: '⬊',
+    backgroundColor: '#094a8f' /* blue */,
     highlight: false,
-    highlightColor: 'yellow'
+    highlightColor: '#1c8cff' /* lighter blue */
   }
 })
 

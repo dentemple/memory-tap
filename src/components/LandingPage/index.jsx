@@ -1,20 +1,21 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
+import Aux from 'react-aux'
 
-import StyledContainer from './StyledContainer'
+import StyledLink from './StyledLink'
 import Title from './Title'
 import TextBlock from './TextBlock'
+import WhiteButton from '../WhiteButton'
 
 class LandingPage extends Component {
   render() {
     return (
-      <StyledContainer>
+      <Aux>
         <Title />
         <TextBlock />
-        <button>
-          <Link to="/play">Play</Link>
-        </button>
-      </StyledContainer>
+        <StyledLink to="/play">
+          <WhiteButton>PLAY</WhiteButton>
+        </StyledLink>
+      </Aux>
     )
   }
 }

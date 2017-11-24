@@ -1,16 +1,16 @@
 import React, { Component } from 'react'
+import Aux from 'react-aux'
 
-import StyledContainer from './StyledContainer'
 import Title from './Title'
 import TextBlock from './TextBlock'
 
 class EndingPage extends Component {
   render() {
     return (
-      <StyledContainer>
+      <Aux>
         <Title />
         <TextBlock />
-      </StyledContainer>
+      </Aux>
     )
   }
 }
