@@ -12,14 +12,15 @@ class GamePad extends Component {
         onClick={this.handleCallback}
         type="button"
         value={this.props.pad.highlight ? this.props.pad.value : ''}
+        disabled={!this.props.playerTurn}
       />
     )
   }
 }
 
 const StyledInput = styled.input`
-  width: 150px;
-  height: 150px;
+  width: 60px;
+  height: 60px;
   margin: 0 50px;
   font-size: 6.5em;
   padding: 0;

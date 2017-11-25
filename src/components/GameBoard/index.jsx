@@ -7,12 +7,16 @@ import {
   removeHighlight,
   startGame,
   clearGame,
-  generateMove
+  generateMove,
+  passControlToPlayer,
+  passControlToComputer,
+  addPlayerMove
 } from '../../actions'
 
 const mapStateToProps = ({ padSettings, gameSettings, games }) => ({
   isLive: gameSettings.isLive,
   playerTurn: gameSettings.playerTurn,
+  playerMoves: games.playerMoves,
   topLeft: padSettings.topLeft,
   topRight: padSettings.topRight,
   bottomLeft: padSettings.bottomLeft,
@@ -22,11 +26,14 @@ const mapStateToProps = ({ padSettings, gameSettings, games }) => ({
 
 const mapDispatchToProps = dispatch => {
   return {
-    handleClick: (pad, playerTurn) => {
+    renderMove: (pad, playerTurn = false) => {
+      if (playerTurn) {
+        dispatch(addPlayerMove(pad.name))
+      }
       dispatch(applyHighlight(pad))
       setTimeout(() => {
         dispatch(removeHighlight(pad))
-      }, playerTurn ? 300 : 800)
+      }, playerTurn ? 300 : 600)
     },
 
     startGame: () => {
@@ -36,6 +43,15 @@ const mapDispatchToProps = dispatch => {
 
     clearGame: () => {
       dispatch(clearGame())
+    },
+
+    passControlToPlayer: () => {
+      dispatch(passControlToPlayer())
+    },
+
+    passControlToComputer: () => {
+      dispatch(passControlToComputer())
+      dispatch(generateMove(selectRandomPad()))
     }
   }
 }

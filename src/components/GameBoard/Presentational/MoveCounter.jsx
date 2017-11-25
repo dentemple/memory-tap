@@ -1,12 +1,15 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const MoveCounter = ({ value }) => <StyledText>{value}</StyledText>
+const MoveCounter = ({ value, playerTurn }) => (
+  <StyledText playerTurn={playerTurn}>{value}</StyledText>
+)
 
 const StyledText = styled.p`
-  color: ${props => props.theme.white};
+  color: ${props => (props.playerTurn ? props.theme.white : props.theme.black)};
+  cursor: default;
   margin: 0;
-  font-size: 5em;
+  font-size: 3.5em;
 `
 
 export default MoveCounter

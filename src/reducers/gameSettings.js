@@ -27,6 +27,18 @@ function gameSettings(state = initialState, action) {
         isLive: false
       }
 
+    case actions.PASS_CONTROL_TO_PLAYER:
+      return {
+        ...state,
+        playerTurn: true
+      }
+
+    case actions.PASS_CONTROL_TO_COMPUTER:
+      return {
+        ...state,
+        playerTurn: false
+      }
+
     default:
       return state
   }
