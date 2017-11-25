@@ -3,29 +3,42 @@ import { selectRandomPad } from '../../util'
 import Presentational from './Presentational'
 
 import {
+  initializeGame,
   applyHighlight,
   removeHighlight,
   startGame,
-  clearGame,
+  endGame,
   generateMove,
   passControlToPlayer,
   passControlToComputer,
-  addPlayerMove
+  addPlayerMove,
+  emptyPlayerMoves
 } from '../../actions'
 
 const mapStateToProps = ({ padSettings, gameSettings, games }) => ({
+  // From gameSettings
   isLive: gameSettings.isLive,
   playerTurn: gameSettings.playerTurn,
-  playerMoves: games.playerMoves,
+  maxRounds: gameSettings.maxRounds,
+  // From padSettings
   topLeft: padSettings.topLeft,
   topRight: padSettings.topRight,
   bottomLeft: padSettings.bottomLeft,
   bottomRight: padSettings.bottomRight,
-  currentGame: games.currentGame
+  //From games
+  playerMoves: games.playerMoves,
+  currentGame: games.currentGame,
+  gameResult: games.allResults
+    ? games.allResults[games.allResults.length - 1]
+    : ''
 })
 
 const mapDispatchToProps = dispatch => {
   return {
+    initializeGame: () => {
+      dispatch(initializeGame())
+    },
+
     renderMove: (pad, playerTurn = false) => {
       if (playerTurn) {
         dispatch(addPlayerMove(pad.name))
@@ -37,12 +50,13 @@ const mapDispatchToProps = dispatch => {
     },
 
     startGame: () => {
+      dispatch(initializeGame())
       dispatch(startGame())
       dispatch(generateMove(selectRandomPad()))
     },
 
-    clearGame: () => {
-      dispatch(clearGame())
+    endGame: (isWin = false) => {
+      dispatch(endGame(isWin))
     },
 
     passControlToPlayer: () => {
@@ -51,7 +65,10 @@ const mapDispatchToProps = dispatch => {
 
     passControlToComputer: () => {
       dispatch(passControlToComputer())
-      dispatch(generateMove(selectRandomPad()))
+      dispatch(emptyPlayerMoves())
+      setTimeout(() => {
+        dispatch(generateMove(selectRandomPad()))
+      }, 1000)
     }
   }
 }

@@ -4,7 +4,8 @@ const initialState = {
   gameCount: 0,
   currentGame: [],
   playerMoves: [],
-  allGames: []
+  allGames: [],
+  allResults: []
 }
 
 function games(state = initialState, action) {
@@ -12,20 +13,17 @@ function games(state = initialState, action) {
     case actions.INITIALIZE_GAME:
       return {
         ...state,
-        ...initialState
+        currentGame: [],
+        gameCount: 0,
+        playerMoves: []
       }
 
-    case actions.CLEAR_GAME:
+    case actions.END_GAME:
       return {
         ...state,
         gameCount: state.gameCount + 1,
-        allGames: [
-          ...state.allGames,
-          {
-            isWin: action.isWin,
-            game: [...state.currentGame]
-          }
-        ],
+        allGames: [...state.allGames, [...state.currentGame]],
+        allResults: [...state.allResults, action.result],
         currentGame: [],
         playerMoves: []
       }
@@ -40,6 +38,12 @@ function games(state = initialState, action) {
       return {
         ...state,
         playerMoves: [...state.playerMoves, action.name]
+      }
+
+    case actions.EMPTY_PLAYER_MOVES:
+      return {
+        ...state,
+        playerMoves: []
       }
 
     default:

@@ -4,7 +4,7 @@ const initialState = {
   isLive: false,
   playerTurn: false,
   strict: false,
-  maxRounds: 3
+  maxRounds: 4
 }
 
 function gameSettings(state = initialState, action) {
@@ -21,7 +21,7 @@ function gameSettings(state = initialState, action) {
         playerTurn: false
       }
 
-    case actions.CLEAR_GAME:
+    case actions.END_GAME:
       return {
         ...state,
         isLive: false

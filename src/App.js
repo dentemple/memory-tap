@@ -5,16 +5,18 @@ import { Switch, Route } from 'react-router-dom'
 import NavBar from './components/NavBar'
 import GameBoard from './components/GameBoard'
 import LandingPage from './components/LandingPage'
-import EndingPage from './components/EndingPage'
+
+const routes = (
+  <Switch>
+    <Route exact path="/play" component={GameBoard} />
+    <Route component={LandingPage} />
+  </Switch>
+)
 
 const App = () => (
   <StyledContainer>
     <NavBar />
-    <Switch>
-      <Route exact path="/play" component={GameBoard} />
-      <Route exact path="/end" component={EndingPage} />
-      <Route component={LandingPage} />
-    </Switch>
+    {routes}
   </StyledContainer>
 )
 
@@ -27,7 +29,7 @@ const StyledContainer = styled.div`
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   /* overflow: hidden; */
 `

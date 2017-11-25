@@ -3,12 +3,12 @@ import styled from 'styled-components'
 const WhiteButton = styled.button`
   font-size: 2em;
   padding: 15px 30px;
-  margin: 50px auto;
+  margin: 50px auto 20px;
   text-transform: uppercase;
   background-color: transparent;
   color: ${props => props.theme.white};
   border: 2px solid ${props => props.theme.white};
-  border-radius: 50%;
+  border-radius: 10px;
   cursor: pointer;
   outline: none;
 `

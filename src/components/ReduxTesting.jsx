@@ -1,7 +1,13 @@
+/*
+
+  For dev purposes only.  Provides a component that renders the store, as 
+    well as buttons to manually execute specific behind-the-scene actions
+*/
+
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { generateMove, clearGame, initializeGame } from '../actions'
+import { generateMove, endGame, initializeGame } from '../actions'
 import { possibilities } from '../types'
 import ShowJSON from '../util/ShowJSON'
 
@@ -24,7 +30,7 @@ const mapDispatchToProps = dispatch => {
       dispatch(generateMove(pad))
     },
     testClear: () => {
-      dispatch(clearGame())
+      dispatch(endGame())
     },
     testInitialize: () => {
       dispatch(initializeGame())

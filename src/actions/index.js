@@ -1,18 +1,19 @@
 import { actions } from '../types'
 
+export function initializeGame() {
+  console.log(actions.INITIALIZE_GAME)
+  return { type: actions.INITIALIZE_GAME }
+}
+
 export function startGame() {
   return { type: actions.START_GAME }
 }
 
-export function clearGame(isWin = false) {
+export function endGame(isWin = false) {
   return {
-    type: actions.CLEAR_GAME,
-    isWin
+    type: actions.END_GAME,
+    result: isWin ? 'YOU WON' : 'GAME OVER'
   }
-}
-
-export function initializeGame() {
-  return { type: actions.INITIALIZE_GAME }
 }
 
 export function generateMove(pad) {
@@ -52,4 +53,8 @@ export function passControlToPlayer() {
 export function passControlToComputer() {
   console.log(actions.PASS_CONTROL_TO_COMPUTER)
   return { type: actions.PASS_CONTROL_TO_COMPUTER }
+}
+
+export function emptyPlayerMoves() {
+  return { type: actions.EMPTY_PLAYER_MOVES }
 }

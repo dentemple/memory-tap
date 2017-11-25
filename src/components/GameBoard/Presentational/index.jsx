@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 
 import {
   delayedLoopExecution,
-  compareArrays,
+  arrayIsPartOf,
   mapNamesToArray
 } from '../../../util'
 import MainWrapper from './MainWrapper'
@@ -10,6 +10,7 @@ import Row from './Row'
 import GamePad from './GamePad'
 import MoveCounter from './MoveCounter'
 import StartButton from './StartButton'
+import GameOver from './GameOver'
 
 class PresentationalGameBoard extends Component {
   constructor() {
@@ -20,7 +21,7 @@ class PresentationalGameBoard extends Component {
       currentGame: [],
       playerMoves: [],
       moveCount: 0,
-      triggerPlayerCheck: false
+      gameResult: ''
     }
     this.executeComputerMoves = this.executeComputerMoves.bind()
   }
@@ -30,7 +31,13 @@ class PresentationalGameBoard extends Component {
       By reading prop changes, we use this method as our main
         "switchboard" for determining the app's next action.
     */
-    const { isLive, playerTurn, currentGame, playerMoves } = this.state
+    const {
+      isLive,
+      playerTurn,
+      currentGame,
+      playerMoves,
+      gameResult
+    } = this.state
 
     if (isLive !== nextProps.isLive) {
       this.setState({
@@ -67,20 +74,32 @@ class PresentationalGameBoard extends Component {
     } else if (playerMoves !== nextProps.playerMoves && playerTurn) {
       const computerMoves = mapNamesToArray(currentGame)
 
-      if (compareArrays(nextProps.playerMoves, computerMoves)) {
-        if (nextProps.playerMoves.length === computerMoves.length) {
-          // If the player has made enough presses...
+      if (arrayIsPartOf(nextProps.playerMoves, computerMoves)) {
+        if (
+          nextProps.playerMoves.length === computerMoves.length &&
+          computerMoves.length >= this.props.maxRounds
+        ) {
+          // The player has won the game
+          console.log('YOU WIN')
+          this.props.endGame(true)
+        } else if (nextProps.playerMoves.length === computerMoves.length) {
+          // The player's turn is over...
           this.props.passControlToComputer()
-        } // Otherwise, do nothing. The player still needs more presses.
+        } // Do nothing. The player still needs to make more moves.
       } else {
-        // If the two arrays fail the test...
-        this.props.clearGame()
+        console.log('GAME OVER')
+        this.props.endGame()
       }
+    }
+
+    if (gameResult !== nextProps.gameResult) {
+      console.log('gameResult:', nextProps.gameResult)
+      this.setState({ gameResult: nextProps.gameResult })
     }
   }
 
   componentWillUnmount() {
-    this.props.clearGame()
+    this.props.endGame()
   }
 
   executeComputerMoves(moves, renderMove, passControlToPlayer) {
@@ -104,7 +123,7 @@ class PresentationalGameBoard extends Component {
       startGame
     } = this.props
 
-    const { isLive, playerTurn, moveCount } = this.state
+    const { isLive, playerTurn, moveCount, gameResult } = this.state
 
     return (
       <MainWrapper>
@@ -137,6 +156,9 @@ class PresentationalGameBoard extends Component {
         </Row>
         <Row id="fourth-row">
           <StartButton isLive={isLive} callback={startGame} />
+        </Row>
+        <Row id="game-over-message">
+          <GameOver message={gameResult} render={!isLive} />
         </Row>
       </MainWrapper>
     )
