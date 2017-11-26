@@ -9,21 +9,50 @@ import MainWrapper from './MainWrapper'
 import Row from './Row'
 import GamePad from './GamePad'
 import MoveCounter from './MoveCounter'
-import StartButton from './StartButton'
+import MainButton from './MainButton'
+import StrictButton from './StrictButton'
+import RetryWarning from './RetryWarning'
 import GameOver from './GameOver'
 
 class PresentationalGameBoard extends Component {
   constructor() {
     super()
     this.state = {
+      audio1: null,
+      audio2: null,
+      audio3: null,
+      audio4: null,
+      strict: false,
       playerTurn: false,
       isLive: false,
       currentGame: [],
       playerMoves: [],
       moveCount: 0,
-      gameResult: ''
+      gameResult: '',
+      showRetryMessage: false
     }
     this.executeComputerMoves = this.executeComputerMoves.bind()
+  }
+
+  componentDidMount() {
+    const audio1 = new Audio(
+      'https://s3.amazonaws.com/freecodecamp/simonSound1.mp3'
+    )
+    const audio2 = new Audio(
+      'https://s3.amazonaws.com/freecodecamp/simonSound2.mp3'
+    )
+    const audio3 = new Audio(
+      'https://s3.amazonaws.com/freecodecamp/simonSound3.mp3'
+    )
+    const audio4 = new Audio(
+      'https://s3.amazonaws.com/freecodecamp/simonSound4.mp3'
+    )
+    this.setState({
+      audio1,
+      audio2,
+      audio3,
+      audio4
+    })
   }
 
   componentWillReceiveProps(nextProps) {
@@ -33,10 +62,12 @@ class PresentationalGameBoard extends Component {
     */
     const {
       isLive,
+      strict,
       playerTurn,
       currentGame,
       playerMoves,
-      gameResult
+      gameResult,
+      showRetryMessage
     } = this.state
 
     if (isLive !== nextProps.isLive) {
@@ -48,6 +79,12 @@ class PresentationalGameBoard extends Component {
     if (playerTurn !== nextProps.playerTurn) {
       this.setState({
         playerTurn: nextProps.playerTurn
+      })
+    }
+
+    if (strict !== nextProps.strict) {
+      this.setState({
+        strict: nextProps.strict
       })
     }
 
@@ -74,26 +111,48 @@ class PresentationalGameBoard extends Component {
     } else if (playerMoves !== nextProps.playerMoves && playerTurn) {
       const computerMoves = mapNamesToArray(currentGame)
 
+      // In non-strict mode, the player may be coming in from a failure
+      //  message that needs to be removed.
+      // We check if the new playerMoves props has entries so that we prevent
+      //  removing the failure message too quickly (i.e., before the player
+      //  gets a chance to see it).
+      if (
+        !this.props.strict &&
+        showRetryMessage &&
+        nextProps.playerMoves.length > 0
+      ) {
+        this.setState({
+          showRetryMessage: false
+        })
+      }
+
       if (arrayIsPartOf(nextProps.playerMoves, computerMoves)) {
         if (
           nextProps.playerMoves.length === computerMoves.length &&
           computerMoves.length >= this.props.maxRounds
         ) {
           // The player has won the game
-          console.log('YOU WIN')
           this.props.endGame(true)
         } else if (nextProps.playerMoves.length === computerMoves.length) {
           // The player's turn is over...
           this.props.passControlToComputer()
         } // Do nothing. The player still needs to make more moves.
       } else {
-        console.log('GAME OVER')
-        this.props.endGame()
+        if (strict) {
+          this.props.endGame()
+        } else {
+          this.setState({
+            showRetryMessage: true
+          })
+          this.props.repeatAttempt()
+        }
       }
     }
 
-    if (gameResult !== nextProps.gameResult) {
-      console.log('gameResult:', nextProps.gameResult)
+    if (
+      gameResult !== nextProps.gameResult &&
+      nextProps.gameResult !== undefined
+    ) {
       this.setState({ gameResult: nextProps.gameResult })
     }
   }
@@ -120,10 +179,18 @@ class PresentationalGameBoard extends Component {
       bottomLeft,
       bottomRight,
       renderMove,
-      startGame
+      startGame,
+      toggleStrictMode
     } = this.props
 
-    const { isLive, playerTurn, moveCount, gameResult } = this.state
+    const {
+      isLive,
+      strict,
+      playerTurn,
+      moveCount,
+      gameResult,
+      showRetryMessage
+    } = this.state
 
     return (
       <MainWrapper>
@@ -132,11 +199,13 @@ class PresentationalGameBoard extends Component {
             pad={topLeft}
             callback={renderMove}
             playerTurn={playerTurn}
+            audio={this.state.audio1}
           />
           <GamePad
             pad={topRight}
             callback={renderMove}
             playerTurn={playerTurn}
+            audio={this.state.audio2}
           />
         </Row>
         <Row id="second-row">
@@ -147,17 +216,36 @@ class PresentationalGameBoard extends Component {
             pad={bottomLeft}
             callback={renderMove}
             playerTurn={playerTurn}
+            audio={this.state.audio3}
           />
           <GamePad
             pad={bottomRight}
             callback={renderMove}
             playerTurn={playerTurn}
+            audio={this.state.audio4}
           />
         </Row>
-        <Row id="fourth-row">
-          <StartButton isLive={isLive} callback={startGame} />
+        <Row id="main-button-row">
+          {isLive ? (
+            <MainButton callback={startGame} text="Reset" />
+          ) : (
+            <MainButton callback={startGame} text="Start" />
+          )}
         </Row>
-        <Row id="game-over-message">
+        <Row id="strict-button-row">
+          {isLive ? (
+            <small />
+          ) : (
+            <StrictButton
+              callback={toggleStrictMode}
+              text={strict ? 'Deactivate' : 'Activate'}
+            />
+          )}
+        </Row>
+        <Row id="retry-message-row">
+          <RetryWarning render={isLive && showRetryMessage} />
+        </Row>
+        <Row id="final-messages-row">
           <GameOver message={gameResult} render={!isLive} />
         </Row>
       </MainWrapper>

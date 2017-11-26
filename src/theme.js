@@ -26,7 +26,6 @@ injectGlobal`
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    min-width:100vh;
     min-height:100vh;
   }
   *, *:before, *:after {
@@ -34,11 +33,6 @@ injectGlobal`
   }
   body {
     background-color: #181818;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    /* overflow: hidden; */
   }
 `
 

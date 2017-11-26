@@ -1,7 +1,6 @@
 import { actions } from '../types'
 
 export function initializeGame() {
-  console.log(actions.INITIALIZE_GAME)
   return { type: actions.INITIALIZE_GAME }
 }
 
@@ -24,7 +23,6 @@ export function generateMove(pad) {
 }
 
 export function addPlayerMove(name) {
-  console.log(actions.ADD_PLAYER_MOVE)
   return {
     type: actions.ADD_PLAYER_MOVE,
     name
@@ -45,16 +43,22 @@ export function removeHighlight(pad) {
   }
 }
 
+export function repeatAttempt() {
+  return { type: actions.REPEAT_ATTEMPT }
+}
+
 export function passControlToPlayer() {
-  console.log(actions.PASS_CONTROL_TO_PLAYER)
   return { type: actions.PASS_CONTROL_TO_PLAYER }
 }
 
 export function passControlToComputer() {
-  console.log(actions.PASS_CONTROL_TO_COMPUTER)
   return { type: actions.PASS_CONTROL_TO_COMPUTER }
 }
 
 export function emptyPlayerMoves() {
   return { type: actions.EMPTY_PLAYER_MOVES }
+}
+
+export function toggleStrictMode() {
+  return { type: actions.TOGGLE_STRICT_MODE }
 }

@@ -1,13 +1,20 @@
 import React from 'react'
-import Aux from 'react-aux'
-// Uncomment for dev mode
-// import ReduxTesting from '../../ReduxTesting'
+import styled, { keyframes } from 'styled-components'
+import { slideInLeft } from 'react-animations'
+
+/* Uncomment for dev mode */
+//import ReduxTesting from '../../ReduxTesting'
 
 const MainWrapper = ({ children }) => (
-  <Aux>
+  <StyledContainer>
     <form onSubmit={e => e.preventDefault}>{children}</form>
     {/* <ReduxTesting /> */}
-  </Aux>
+  </StyledContainer>
 )
+
+const slideInLeftAnimation = keyframes`${slideInLeft}`
+const StyledContainer = styled.section`
+  animation: 0.8s ${slideInLeftAnimation};
+`
 
 export default MainWrapper

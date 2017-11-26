@@ -12,7 +12,9 @@ import {
   passControlToPlayer,
   passControlToComputer,
   addPlayerMove,
-  emptyPlayerMoves
+  emptyPlayerMoves,
+  toggleStrictMode,
+  repeatAttempt
 } from '../../actions'
 
 const mapStateToProps = ({ padSettings, gameSettings, games }) => ({
@@ -20,6 +22,7 @@ const mapStateToProps = ({ padSettings, gameSettings, games }) => ({
   isLive: gameSettings.isLive,
   playerTurn: gameSettings.playerTurn,
   maxRounds: gameSettings.maxRounds,
+  strict: gameSettings.strict,
   // From padSettings
   topLeft: padSettings.topLeft,
   topRight: padSettings.topRight,
@@ -44,6 +47,7 @@ const mapDispatchToProps = dispatch => {
         dispatch(addPlayerMove(pad.name))
       }
       dispatch(applyHighlight(pad))
+      pad.audio.play()
       setTimeout(() => {
         dispatch(removeHighlight(pad))
       }, playerTurn ? 300 : 600)
@@ -69,6 +73,14 @@ const mapDispatchToProps = dispatch => {
       setTimeout(() => {
         dispatch(generateMove(selectRandomPad()))
       }, 1000)
+    },
+
+    toggleStrictMode: () => {
+      dispatch(toggleStrictMode())
+    },
+
+    repeatAttempt: () => {
+      dispatch(repeatAttempt())
     }
   }
 }

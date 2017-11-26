@@ -4,6 +4,7 @@ import styled from 'styled-components'
 class GamePad extends Component {
   handleCallback = () => {
     this.props.callback(this.props.pad, this.props.playerTurn)
+    this.props.audio.play()
   }
   render() {
     return (
@@ -19,10 +20,10 @@ class GamePad extends Component {
 }
 
 const StyledInput = styled.input`
-  width: 60px;
-  height: 60px;
+  width: 120px;
+  height: 120px;
   margin: 0 50px;
-  font-size: 6.5em;
+  font-size: 5em;
   padding: 0;
   color: ${props => props.backgroundColor};
   border-radius: 50%;

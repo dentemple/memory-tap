@@ -28,6 +28,12 @@ function games(state = initialState, action) {
         playerMoves: []
       }
 
+    case actions.REPEAT_ATTEMPT:
+      return {
+        ...state,
+        playerMoves: []
+      }
+
     case actions.GENERATE_MOVE:
       return {
         ...state,

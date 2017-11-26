@@ -1,25 +1,38 @@
 import React, { Component } from 'react'
-import Aux from 'react-aux'
+import styled, { keyframes } from 'styled-components'
+import { fadeInRight } from 'react-animations'
 
 import StyledLink from '../StyledLink'
 import Title from './Title'
 import TextBlock from './TextBlock'
 import WhiteButton from '../WhiteButton'
-import ReduxTesting from '../ReduxTesting'
 
 class LandingPage extends Component {
   render() {
     return (
-      <Aux>
+      <StyledSection>
         <Title />
         <TextBlock />
         <StyledLink to="/play">
           <WhiteButton>PLAY</WhiteButton>
         </StyledLink>
-        <ReduxTesting />
-      </Aux>
+      </StyledSection>
     )
   }
 }
+
+const fadeInRightAnimation = keyframes`${fadeInRight}`
+const StyledSection = styled.section`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 70vh;
+  animation: 1s ${fadeInRightAnimation};
+
+  & > * {
+    animation: 1s ${fadeInRightAnimation};
+  }
+`
 
 export default LandingPage

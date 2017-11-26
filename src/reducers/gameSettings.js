@@ -4,7 +4,7 @@ const initialState = {
   isLive: false,
   playerTurn: false,
   strict: false,
-  maxRounds: 4
+  maxRounds: 20
 }
 
 function gameSettings(state = initialState, action) {
@@ -12,7 +12,9 @@ function gameSettings(state = initialState, action) {
     case actions.INITIALIZE_GAME:
       return {
         ...state,
-        ...initialState
+        isLive: false,
+        playerTurn: false,
+        maxRounds: 4
       }
     case actions.START_GAME:
       return {
@@ -24,7 +26,8 @@ function gameSettings(state = initialState, action) {
     case actions.END_GAME:
       return {
         ...state,
-        isLive: false
+        isLive: false,
+        playerTurn: false
       }
 
     case actions.PASS_CONTROL_TO_PLAYER:
@@ -37,6 +40,12 @@ function gameSettings(state = initialState, action) {
       return {
         ...state,
         playerTurn: false
+      }
+
+    case actions.TOGGLE_STRICT_MODE:
+      return {
+        ...state,
+        strict: !state.strict
       }
 
     default:
